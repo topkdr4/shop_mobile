@@ -12,17 +12,19 @@
         <activity
                 android:name=".MainActivity"
                 android:theme="@style/LoginPage">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity
                 android:name=".MainLoader"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:label="@string/title_activity_main_loader"
                 android:theme="@style/FullscreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".RegistrationActivity">
         </activity>
     </application>
 

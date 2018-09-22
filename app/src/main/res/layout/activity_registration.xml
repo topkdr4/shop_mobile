@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:scrollbars="none"
+        android:background="#ffffff"
+        android:theme="@style/RegistrationPage"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+    >
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Регистрация"
+                android:gravity="center_horizontal"
+                android:textSize="22pt"
+                android:textColor="#212121"
+        />
+
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+        />
+
+
+        <EditText
+                android:id="@+id/new_login_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:gravity=""
+                android:hint="@string/login_edit_hint"
+        />
+
+
+        <EditText
+                android:id="@+id/new_password_edit_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="@string/login_password_hint"
+        />
+
+
+        <EditText
+                android:id="@+id/new_password_edit_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Повторите пароль"
+        />
+
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+        />
+
+        <Button
+                android:id="@+id/button_registration"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAllCaps="false"
+                android:text="Зарегистрироваться"
+        />
+
+
+    </LinearLayout>
+
+</ScrollView>

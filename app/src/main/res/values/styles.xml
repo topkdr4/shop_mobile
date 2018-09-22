@@ -22,4 +22,7 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="RegistrationPage" parent="LoginPage">
+    </style>
+
 </resources>
