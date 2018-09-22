@@ -3,6 +3,10 @@ package ru.vetoshkin.shop_mobile;
 import android.app.Activity;
 import android.os.Bundle;
 
+
+
+
+
 public class MainActivity extends Activity {
 
     @Override
