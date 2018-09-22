@@ -31,4 +31,5 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.2'
     compile 'com.fasterxml.jackson.core:jackson-core:2.9.7'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.+'
 }

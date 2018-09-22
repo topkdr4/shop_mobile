@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">shop_mobile</string>
+    <string name="shop_title">Speed of Life</string>
+    <string name="sub_title">веломагазин</string>
+    <string name="login_button_text">Войти</string>
+    <string name="registration">Зарегистрироваться</string>
+    <string name="login_edit_hint">Логин</string>
+    <string name="login_password_hint">Пароль</string>
 </resources>
