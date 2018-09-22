@@ -6,4 +6,8 @@
     <string name="registration">Зарегистрироваться</string>
     <string name="login_edit_hint">Логин</string>
     <string name="login_password_hint">Пароль</string>
+
+    <string name="title_activity_main_loader">MainLoader</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
