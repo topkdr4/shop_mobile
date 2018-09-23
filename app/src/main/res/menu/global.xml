@@ -1,0 +1,8 @@
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/basket"
+        android:title="0 ₽"
+        app:showAsAction="always"
+    />
+</menu>

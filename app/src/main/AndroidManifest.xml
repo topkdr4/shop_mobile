@@ -5,7 +5,7 @@
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
+            android:label="Speed Of Life"
             android:roundIcon="@mipmap/ic_launcher"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
@@ -16,7 +16,7 @@
         <activity
                 android:name=".MainLoader"
                 android:configChanges="orientation|keyboardHidden|screenSize"
-                android:label="@string/title_activity_main_loader"
+                android:label="Speed Of Life"
                 android:theme="@style/FullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,7 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".RegistrationActivity">
+        <activity android:name=".RegistrationActivity" android:theme="@style/RegistrationPage">
+        </activity>
+        <activity
+                android:name=".ShopActivity"
+                android:label="Speed Of Life"
+                android:theme="@style/ShopPage">
         </activity>
     </application>
 

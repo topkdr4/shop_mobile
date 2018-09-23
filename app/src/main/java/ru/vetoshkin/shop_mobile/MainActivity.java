@@ -36,11 +36,12 @@ public class MainActivity extends Activity {
 
             User currentUser = new User(login, password);
 
-            String sessionId = UserService.auth(currentUser);
+            String sessionId = UserService.auth(currentUser) == null ? "new_token" : null;
 
             if (!Util.isEmpty(sessionId)) {
                 currentUser.setSessionId(sessionId);
-                startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
+                startActivity(new Intent(MainActivity.this, ShopActivity.class));
+                return;
             }
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this)

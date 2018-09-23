@@ -6,10 +6,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
+@Setter
 @RequiredArgsConstructor
 public class User {
-    protected final String login;
+    /**
+     * Логин / e-mail
+     */
+    protected final String email;
+
+    /**
+     * Пароль
+     */
     protected final String password;
-    @Setter
     protected String sessionId;
+    protected String name;
+    protected boolean dispatch;
 }

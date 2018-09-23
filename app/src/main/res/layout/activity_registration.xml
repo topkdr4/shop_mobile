@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:scrollbars="none"
         android:background="#ffffff"
         android:theme="@style/RegistrationPage"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        tools:context=".RegistrationActivity"
+>
 
 
     <LinearLayout
@@ -32,12 +35,20 @@
 
 
         <EditText
-                android:id="@+id/new_login_edit"
+                android:id="@+id/new_email_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="@string/e_mail"
+        />
+
+
+        <EditText
+                android:id="@+id/user_name_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:gravity=""
-                android:hint="@string/login_edit_hint"
+                android:hint="Ваше Имя"
         />
 
 
@@ -69,6 +80,7 @@
                 android:layout_height="match_parent"
                 android:textAllCaps="false"
                 android:text="Зарегистрироваться"
+                android:onClick="registration"
         />
 
 
