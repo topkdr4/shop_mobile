@@ -1,20 +1,39 @@
 package ru.vetoshkin.shop_mobile;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.view.*;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
 import ru.vetoshkin.shop_mobile.category.CategoryService;
+import ru.vetoshkin.shop_mobile.product.ProductAdapter;
+
+
+
+
 
 public class ShopActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private CharSequence mTitle;
+    private RecyclerView numbersList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
+
+        numbersList = findViewById(R.id.list_items);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        numbersList.setLayoutManager(layoutManager);
+
+        ProductAdapter adapter = new ProductAdapter();
+        numbersList.setAdapter(adapter);
+
 
         /**
          * Fragment managing the behaviors, interactions and presentation of the navigation drawer.

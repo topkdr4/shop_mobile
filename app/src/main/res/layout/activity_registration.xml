@@ -7,7 +7,6 @@
         android:orientation="vertical"
         android:scrollbars="none"
         android:background="#ffffff"
-        android:theme="@style/RegistrationPage"
         tools:context=".RegistrationActivity"
 >
 
@@ -80,7 +79,7 @@
                 android:layout_height="match_parent"
                 android:textAllCaps="false"
                 android:text="Зарегистрироваться"
-                android:onClick="registration"
+                android:onClick="valideForm"
         />
 
 

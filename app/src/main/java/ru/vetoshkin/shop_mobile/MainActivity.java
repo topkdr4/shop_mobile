@@ -64,6 +64,7 @@ public class MainActivity extends Activity {
 
 
     public void registration(View view) {
-        startActivity(new Intent(this, RegistrationActivity.class));
+        Intent registrIntent = new Intent(this, RegistrationActivity.class);
+        startActivity(registrIntent);
     }
 }
