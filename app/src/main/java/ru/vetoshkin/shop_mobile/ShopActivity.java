@@ -3,14 +3,18 @@ package ru.vetoshkin.shop_mobile;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import ru.vetoshkin.shop_mobile.category.CategoryService;
+import ru.vetoshkin.shop_mobile.product.Product;
 import ru.vetoshkin.shop_mobile.product.ProductAdapter;
+import ru.vetoshkin.shop_mobile.product.dao.ProductService;
 
 
 
@@ -18,8 +22,8 @@ import ru.vetoshkin.shop_mobile.product.ProductAdapter;
 
 public class ShopActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    private CharSequence mTitle;
     private RecyclerView numbersList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +31,6 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
         setContentView(R.layout.activity_shop);
 
         numbersList = findViewById(R.id.list_items);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         numbersList.setLayoutManager(layoutManager);
 
@@ -35,18 +38,40 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
         numbersList.setAdapter(adapter);
 
 
+        numbersList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int totalItemCount = layoutManager.getItemCount();
+                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+
+                if (lastVisibleItem + 1 == totalItemCount) {
+
+
+                    for (int i = 0; i < 10; i++) {
+                        ProductService.getTop_products().add(new Product());
+                    }
+
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+
+
+
         /**
          * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
          */
         NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 findViewById(R.id.drawer_layout));
     }
+
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -59,8 +84,9 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.global, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
+
 
     public void onSectionAttached(int number) {
         setTitle(CategoryService.getCategories().get(--number).getTitle());
@@ -74,8 +100,10 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
 
         private static final String ARG_SECTION_NUMBER = "section_number";
 
+
         public PlaceholderFragment() {
         }
+
 
         static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
@@ -85,10 +113,12 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
             return fragment;
         }
 
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             return inflater.inflate(R.layout.fragment_shop, container, false);
         }
+
 
         @Override
         public void onAttach(Activity activity) {

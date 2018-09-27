@@ -38,7 +38,7 @@ public class ProductService {
         top_products.add(best2);
 
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 9; i++) {
             Product best = new Product();
             best.setId("A348");
             best.setTitle("СуперВелос" + (i + 3));
