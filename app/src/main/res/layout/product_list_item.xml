@@ -1,38 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="56dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eceff1"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+>
 
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
+    <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="4dp"
+    >
 
-
-        <TextView
-                android:id="@+id/holder_item"
-                android:layout_width="wrap_content"
+        <GridLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="32sp"
-                android:layout_marginRight="14dp"
-                android:text="text"
-        />
+                android:columnCount="2"
+                android:padding="6dp"
+        >
+
+            <ImageView
+                    android:id="@+id/bike_preview"
+                    android:src="@drawable/bike"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:padding="12dp"
+            />
 
 
+            <TextView
+                    android:id="@+id/bike_name"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:padding="12dp"
+                    android:textSize="16sp"
+                    android:ellipsize="end"
+                    android:singleLine="false"
+                    android:text="Велосипед городской Stern Q-stom alt"
+            />
 
-        <TextView
-                android:id="@+id/ebota_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="32sp"
-                android:text="View holder index: "
-        />
 
-    </LinearLayout>
+            <ImageView
+                    android:id="@+id/bike_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|start"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_baseline_favorite_24px"
+            />
 
 
+            <Button
+                    android:id="@+id/bike_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="65400"
+                    android:drawableEnd="@drawable/ic_baseline_shopping_cart_24px"
+                    android:drawablePadding="12dp"
+                    android:textSize="18sp"
+                    android:elevation="0dp"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="42dp"
+            />
+
+
+        </GridLayout>
+
+
+    </android.support.v7.widget.CardView>
 
 
 </FrameLayout>
+

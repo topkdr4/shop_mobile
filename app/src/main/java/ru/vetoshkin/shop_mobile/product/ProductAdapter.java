@@ -13,7 +13,6 @@ import ru.vetoshkin.shop_mobile.product.dao.ProductService;
 
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductHolder> {
-    private static int holdersCount = 0;
 
 
 
@@ -25,26 +24,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View view = inflater.inflate(layoutIdForListItems, parent, false);
-        ProductHolder viewHolder = new ProductHolder(view);
-        viewHolder.holder.setText("View holder index: " + holdersCount);
-        holdersCount++;
-
-        return viewHolder;
+        return new ProductHolder(view);
     }
 
 
     @Override
     public void onBindViewHolder(ProductHolder holder, int position) {
-        Log.i("BINDER: ", "" + ProductService.getTop_products().size() + " | " + position);
-        holder.bind(position);
-        if (position + 4 == ProductService.getTop_products().size()) {
-            for (int i = 0; i < 14; i++) {
-                ProductService.getTop_products().add(new Product());
-            }
-
-
-            //notifyDataSetChanged();
-        }
 
     }
 
