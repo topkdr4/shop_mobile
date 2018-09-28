@@ -24,12 +24,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".RegistrationActivity" android:theme="@style/RegistrationPage">
+        <activity
+                android:name=".RegistrationActivity"
+                android:theme="@style/RegistrationPage">
         </activity>
         <activity
                 android:name=".ShopActivity"
                 android:label="Speed Of Life"
                 android:theme="@style/ShopPage">
+        </activity>
+        <activity android:name=".ProductCard">
         </activity>
     </application>
 

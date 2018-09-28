@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#eceff1"
@@ -8,6 +9,7 @@
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
         android:paddingLeft="16dp"
+        tools:context="ru.vetoshkin.shop_mobile.product.ProductHolder"
 >
 
 
@@ -54,7 +56,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|start"
                     android:padding="12dp"
-                    android:src="@drawable/ic_baseline_favorite_24px"
+                    android:src="@drawable/ic_baseline_favorite_border_24px"
+                    android:tag="0"
             />
 
 

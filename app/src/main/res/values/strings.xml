@@ -22,4 +22,12 @@
     <string name="action_example">Example action</string>
 
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="desc_example">
+        <![CDATA[
+               <div><ul><li><b>УПРАВЛЯЕМОСТЬ</b><br>Колеса стандарта 700С обеспечат хороший накат и удовольствие от езды.<br></li><li><b>ПЛАВНЫЙ ХОД</b><br>18-скоростная трансмиссия позволяет выбрать оптимальную нагрузку в зависимости от рельефа.<br></li><li><b>КОМФОРТ</b><br>Амортизационная вилка с ходом 45 мм гарантирует комфортную езду как по ровной дороге, так и по пересеченной местности.<br></li><li><b>БЕЗОПАСНОСТЬ</b><br>Велосипед оснащен легкими и надежными ободными тормозами.<br></li><li><b>ЛЕГКОСТЬ</b><br>Рама 6061 Aluminium со специальными сечением <a href="/catalog/tekhnologiya_stern_bi_axial_tubing" data-bind="webuiPopover: { title: name, content: content, trigger: &quot;hover&quot;}">Bi-Axial Tubing</a>.<br></li><li><b>ПРОЧНОСТЬ</b><br>Надежная рама и двойные алюминиевые обода выдерживают вес до 100 кг.<br></li><li><b>КОМФОРТ</b><br>Удобное седло оптимизировано по форме и жесткости. Регулируемый вынос руля позволяет настроить велосипед под ваши индивидуальные особенности.&nbsp;<br></li></ul></div>
+        ]]>
+    </string>
 </resources>

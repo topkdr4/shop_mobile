@@ -5,6 +5,7 @@ import ru.vetoshkin.shop_mobile.product.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 
@@ -38,13 +39,15 @@ public class ProductService {
         top_products.add(best2);
 
 
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+
         for (int i = 0; i < 9; i++) {
             Product best = new Product();
             best.setId("A348");
             best.setTitle("СуперВелос" + (i + 3));
             best.setCategory(2);
             best.setDescription("Самый лучший велос!!!");
-            best.setPrice(345.56f);
+            best.setPrice(random.nextInt(5000, 100000));
             best.setImages(Arrays.asList(3, 4, 5));
 
             top_products.add(best);

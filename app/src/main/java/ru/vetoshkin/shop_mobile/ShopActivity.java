@@ -34,7 +34,7 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         numbersList.setLayoutManager(layoutManager);
 
-        ProductAdapter adapter = new ProductAdapter();
+        ProductAdapter adapter = new ProductAdapter(numbersList);
         numbersList.setAdapter(adapter);
 
 
