@@ -54,4 +54,13 @@ public class ProductService {
         }
     }
 
+
+    /**
+     * Список продуктов заданной категории и страницы
+     */
+    public static List<Product> getProducts(String categoryId, int page) {
+        List<Product> result = new ArrayList<>();
+
+        return result;
+    }
 }

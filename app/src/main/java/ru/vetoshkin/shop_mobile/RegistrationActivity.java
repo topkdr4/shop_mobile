@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import okhttp3.*;
+import ru.vetoshkin.shop_mobile.config.AppConfig;
 import ru.vetoshkin.shop_mobile.util.Util;
 
+import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -86,6 +89,28 @@ public class RegistrationActivity extends Activity {
         if (errors.size() > 0) {
             showError(errors);
         }
+
+
+        String url = "http://" + AppConfig.getServerHost() + "/product/list/4/1";
+        Log.e("URL: ", url);
+        try {
+
+            ResponseBody result = post(url);
+            Log.e("RESP: ", result != null ? result.string() : "NPE");
+        } catch (IOException e) {
+            Log.e("ERROR", e.getMessage());
+        }
     }
 
+
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private ResponseBody post(String url) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(new FormBody.Builder().build())
+                .build();
+        Response response = client.newCall(request).execute();
+        return response.body();
+    }
 }

@@ -3,12 +3,9 @@ package ru.vetoshkin.shop_mobile;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import ru.vetoshkin.shop_mobile.category.CategoryService;
@@ -22,7 +19,7 @@ import ru.vetoshkin.shop_mobile.product.dao.ProductService;
 
 public class ShopActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    private RecyclerView numbersList;
+    private RecyclerView productList;
 
 
     @Override
@@ -30,15 +27,15 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
 
-        numbersList = findViewById(R.id.list_items);
+        productList = findViewById(R.id.list_items);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        numbersList.setLayoutManager(layoutManager);
+        productList.setLayoutManager(layoutManager);
 
-        ProductAdapter adapter = new ProductAdapter(numbersList);
-        numbersList.setAdapter(adapter);
+        ProductAdapter adapter = new ProductAdapter(productList);
+        productList.setAdapter(adapter);
 
 
-        numbersList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        productList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -80,12 +77,6 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
                 .commit();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.global, menu);
-        return true;
-    }
 
 
     public void onSectionAttached(int number) {
