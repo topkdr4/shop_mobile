@@ -41,6 +41,11 @@ public class Product {
      */
     private float price;
 
+    /**
+     * Избрнанное
+     */
+    private boolean isFavorite;
+
 
     @Override
     public String toString() {

@@ -18,7 +18,7 @@ public class ProductService {
 
     static {
         Product best1 = new Product();
-        best1.setId("A348");
+        best1.setId("A340");
         best1.setTitle("СуперВелос1");
         best1.setCategory(2);
         best1.setDescription("Самый лучший велос!!!");
@@ -29,7 +29,7 @@ public class ProductService {
 
 
         Product best2 = new Product();
-        best2.setId("A348");
+        best2.setId("A341");
         best2.setTitle("СуперВелос2");
         best2.setCategory(2);
         best2.setDescription("Самый лучший велос!!!");
@@ -43,12 +43,13 @@ public class ProductService {
 
         for (int i = 0; i < 9; i++) {
             Product best = new Product();
-            best.setId("A348");
+            best.setId("A" + (350 + i));
             best.setTitle("СуперВелос" + (i + 3));
             best.setCategory(2);
             best.setDescription("Самый лучший велос!!!");
             best.setPrice(random.nextInt(5000, 100000));
             best.setImages(Arrays.asList(3, 4, 5));
+            best.setFavorite(random.nextBoolean());
 
             top_products.add(best);
         }

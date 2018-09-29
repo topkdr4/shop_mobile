@@ -2,6 +2,8 @@ package ru.vetoshkin.shop_mobile;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,13 +20,14 @@ import java.util.regex.Pattern;
 
 public class RegistrationActivity extends Activity {
     private static final Pattern EMAIL_REGEXP = Pattern.compile("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-
+    private SharedPreferences preferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        this.preferences = getSharedPreferences("registration", Context.MODE_PRIVATE);
     }
 
 
@@ -88,17 +91,6 @@ public class RegistrationActivity extends Activity {
 
         if (errors.size() > 0) {
             showError(errors);
-        }
-
-
-        String url = "http://" + AppConfig.getServerHost() + "/product/list/4/1";
-        Log.e("URL: ", url);
-        try {
-
-            ResponseBody result = post(url);
-            Log.e("RESP: ", result != null ? result.string() : "NPE");
-        } catch (IOException e) {
-            Log.e("ERROR", e.getMessage());
         }
     }
 
