@@ -2,12 +2,16 @@ package ru.vetoshkin.shop_mobile;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import ru.vetoshkin.shop_mobile.category.Category;
 import ru.vetoshkin.shop_mobile.category.dao.CategoryService;
 import ru.vetoshkin.shop_mobile.product.Product;
 import ru.vetoshkin.shop_mobile.product.ProductAdapter;
@@ -19,43 +23,12 @@ import ru.vetoshkin.shop_mobile.product.dao.ProductService;
 
 public class ShopActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    private RecyclerView productList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
-
-        productList = findViewById(R.id.list_items);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        productList.setLayoutManager(layoutManager);
-
-        ProductAdapter adapter = new ProductAdapter(productList);
-        productList.setAdapter(adapter);
-
-
-        productList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int totalItemCount = layoutManager.getItemCount();
-                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-
-                if (lastVisibleItem + 1 == totalItemCount) {
-
-
-                    for (int i = 0; i < 10; i++) {
-                        ProductService.getTop_products().add(new Product());
-                    }
-
-                    adapter.notifyDataSetChanged();
-                }
-            }
-        });
-
-
-
 
         /**
          * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -72,16 +45,19 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+        Category category = CategoryService.getCategories().get(position);
+        Log.e("SELECTED CATEGORY: ", category.toString());
+        Fragment newFragment = CategoryService.getFragment(category);
+        newFragment = newFragment == null ? PlaceholderFragment.newInstance(position + 1) : newFragment;
+
         getFragmentManager().beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, newFragment)
                 .commit();
+
+        setTitle(category.getTitle());
     }
 
 
-
-    public void onSectionAttached(int number) {
-        setTitle(CategoryService.getCategories().get(--number).getTitle());
-    }
 
 
     /**
@@ -105,6 +81,7 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
         }
 
 
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             return inflater.inflate(R.layout.fragment_shop, container, false);
@@ -112,9 +89,45 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
 
 
         @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((ShopActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            RecyclerView productList = getActivity().findViewById(R.id.list_items);
+            productList.setLayoutManager(layoutManager);
+
+            ProductAdapter adapter = new ProductAdapter(productList);
+            productList.setAdapter(adapter);
+
+
+            productList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    int totalItemCount = layoutManager.getItemCount();
+                    int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+
+                    if (lastVisibleItem + 1 == totalItemCount) {
+
+
+                        for (int i = 0; i < 10; i++) {
+                            ProductService.getTop_products().add(new Product());
+                        }
+
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            });
+        }
+
+
+        @Override
+        public void onAttach(Activity context) {
+            super.onAttach(context);
+
+
+            /**/
+
         }
     }
 
