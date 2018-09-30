@@ -31,7 +31,7 @@
 
             <ImageView
                     android:id="@+id/bike_preview"
-                    android:src="@drawable/bike"
+                    android:src="@drawable/bike_menu_icon"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:padding="12dp"
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|start"
                     android:padding="12dp"
-                    android:src="@drawable/ic_baseline_favorite_border_24px"
+                    android:src="@drawable/not_favorite"
                     android:tag="0"
             />
 
@@ -66,7 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="65400"
-                    android:drawableEnd="@drawable/ic_baseline_shopping_cart_24px"
+                    android:drawableEnd="@drawable/cart_button"
                     android:drawablePadding="12dp"
                     android:textSize="18sp"
                     android:elevation="0dp"

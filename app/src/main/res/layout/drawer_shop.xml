@@ -4,7 +4,5 @@
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:choiceMode="singleChoice"
-          android:divider="#9e9e9e"
-          android:dividerHeight="1dp"
-          android:background="#ffffff"
+          android:background="#eceff1"
           tools:context=".NavigationDrawerFragment"/>

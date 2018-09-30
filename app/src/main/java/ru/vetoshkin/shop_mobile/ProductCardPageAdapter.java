@@ -22,7 +22,7 @@ public class ProductCardPageAdapter extends PagerAdapter {
     private final Context context;
 
     private List<Integer> images = Arrays.asList(
-            R.drawable.bike,
+            R.drawable.bike_menu_icon,
             R.drawable.bike2,
             R.drawable.bike3
     );

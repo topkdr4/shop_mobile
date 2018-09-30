@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import ru.vetoshkin.shop_mobile.category.CategoryService;
+import ru.vetoshkin.shop_mobile.category.dao.CategoryService;
 import ru.vetoshkin.shop_mobile.product.Product;
 import ru.vetoshkin.shop_mobile.product.ProductAdapter;
 import ru.vetoshkin.shop_mobile.product.dao.ProductService;

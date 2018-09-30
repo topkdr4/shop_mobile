@@ -12,17 +12,13 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-import ru.vetoshkin.shop_mobile.category.Category;
-import ru.vetoshkin.shop_mobile.category.CategoryService;
+import ru.vetoshkin.shop_mobile.category.CategoryAdapter;
+import ru.vetoshkin.shop_mobile.category.dao.CategoryService;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -94,12 +90,8 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView = (ListView) inflater.inflate(
                 R.layout.drawer_shop, container, false);
         mDrawerListView.setOnItemClickListener((parent, view, position, id) -> selectItem(position));
-        mDrawerListView.setAdapter(new ArrayAdapter<>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                CategoryService.getCategories()
-        ));
+        mDrawerListView.setAdapter(new CategoryAdapter(inflater.getContext()));
+
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -131,7 +123,7 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerToggle = new ActionBarDrawerToggle(
                 getActivity(),                    /* host Activity */
                 mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_baseline_menu_24px,             /* nav drawer image to replace 'Up' caret */
+                R.drawable.menu,             /* nav drawer image to replace 'Up' caret */
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
                 R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
         ) {

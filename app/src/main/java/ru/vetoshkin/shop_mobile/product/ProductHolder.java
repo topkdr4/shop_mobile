@@ -2,12 +2,12 @@ package ru.vetoshkin.shop_mobile.product;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ru.vetoshkin.shop_mobile.R;
+import ru.vetoshkin.shop_mobile.basket.Basket;
 
 
 
@@ -36,8 +36,13 @@ public class ProductHolder extends RecyclerView.ViewHolder {
     public void setState(Product product) {
         this.currentProduct = product;
 
-        this.bikePrice.setText(String.valueOf(currentProduct.getPrice()));
         this.bikeName.setText(currentProduct.getTitle());
+
+        this.bikePrice.setText(String.valueOf(currentProduct.getPrice()));
+        this.bikePrice.setOnClickListener(view -> {
+            Basket.put(currentProduct);
+            Basket.printBasket();
+        });
 
         this.imageView.setOnClickListener(view -> {
             ImageView current = (ImageView) view;
@@ -55,8 +60,8 @@ public class ProductHolder extends RecyclerView.ViewHolder {
     private static final int notFavoriteTag = 0;
     private static final int favoriteTag = 1;
 
-    private static final int notFavoriteImage = R.drawable.ic_baseline_favorite_border_24px;
-    private static final int favoriteImage = R.drawable.ic_baseline_favorite_24px;
+    private static final int notFavoriteImage = R.drawable.not_favorite;
+    private static final int favoriteImage = R.drawable.favorite;
 
     private static final String favoritePreference = "favorite";
 
@@ -64,10 +69,7 @@ public class ProductHolder extends RecyclerView.ViewHolder {
         Context context = imageView.getContext();
         SharedPreferences prefs = context.getSharedPreferences(favoritePreference, Context.MODE_PRIVATE);
 
-        Log.e("FAVORITE: ", "IS_FAVORITE: " + isFavorite + " | " + productId);
-
         setImage(imageView, isFavorite);
-
 
         SharedPreferences.Editor editor = prefs.edit();
         if (!isFavorite) {
