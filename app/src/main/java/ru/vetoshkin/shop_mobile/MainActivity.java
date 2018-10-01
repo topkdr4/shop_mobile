@@ -34,7 +34,9 @@ public class MainActivity extends Activity {
             if (Util.isEmpty(password))
                 return;
 
-            User currentUser = new User(login, password);
+            User currentUser = User.getInstance();
+            currentUser.setEmail(login);
+            currentUser.setPassword(password);
 
             String sessionId = UserService.auth(currentUser) == null ? "new_token" : null;
 
