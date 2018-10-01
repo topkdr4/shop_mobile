@@ -29,7 +29,7 @@ public class Product {
     /**
      * Категория
      */
-    private int category;
+    private String category;
 
     /**
      * Изображения

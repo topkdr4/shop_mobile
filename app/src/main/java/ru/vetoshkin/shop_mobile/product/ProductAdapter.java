@@ -10,6 +10,8 @@ import ru.vetoshkin.shop_mobile.ProductCard;
 import ru.vetoshkin.shop_mobile.R;
 import ru.vetoshkin.shop_mobile.product.dao.ProductService;
 
+import java.util.List;
+
 
 
 
@@ -17,10 +19,12 @@ import ru.vetoshkin.shop_mobile.product.dao.ProductService;
 public class ProductAdapter extends RecyclerView.Adapter<ProductHolder> {
 
     private RecyclerView recyclerView;
+    private List<Product> dataSource;
 
 
-    public ProductAdapter(RecyclerView recyclerView) {
+    public ProductAdapter(RecyclerView recyclerView, List<Product> dataSource) {
         this.recyclerView = recyclerView;
+        this.dataSource   = dataSource;
     }
 
 
@@ -43,12 +47,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductHolder> {
 
     @Override
     public void onBindViewHolder(ProductHolder holder, int position) {
-        holder.setState(ProductService.getTop_products().get(position));
+        holder.setState(dataSource.get(position));
     }
 
 
     @Override
     public int getItemCount() {
-        return ProductService.getTop_products().size();
+        return dataSource.size();
     }
 }

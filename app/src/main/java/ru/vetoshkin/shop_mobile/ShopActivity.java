@@ -17,12 +17,13 @@ import ru.vetoshkin.shop_mobile.product.Product;
 import ru.vetoshkin.shop_mobile.product.ProductAdapter;
 import ru.vetoshkin.shop_mobile.product.dao.ProductService;
 
+import java.util.List;
+
 
 
 
 
 public class ShopActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-
 
 
     @Override
@@ -46,9 +47,8 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         Category category = CategoryService.getCategories().get(position);
-        Log.e("SELECTED CATEGORY: ", category.toString());
         Fragment newFragment = CategoryService.getFragment(category);
-        newFragment = newFragment == null ? PlaceholderFragment.newInstance(position + 1) : newFragment;
+        newFragment = newFragment == null ? PlaceholderFragment.newInstance(category) : newFragment;
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, newFragment)
@@ -59,44 +59,51 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
 
 
 
-
     /**
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
 
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-
         public PlaceholderFragment() {
         }
 
 
-        static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
+        static PlaceholderFragment newInstance(Category category) {
+            PlaceholderFragment result = new PlaceholderFragment();
             Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
+            args.putString("CATEGORY_ID", category.getId());
+            result.setArguments(args);
+            return result;
         }
 
 
+        private RecyclerView productList;
+        private int page = 1;
+        private String categoryId;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            Bundle args = getArguments();
+            if (args != null) {
+                categoryId = args.getString("CATEGORY_ID");
+            }
+
             return inflater.inflate(R.layout.fragment_shop, container, false);
         }
 
 
+
         @Override
-        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-            super.onViewCreated(view, savedInstanceState);
+        public void onStart() {
+            super.onStart();
+
+            List<Product> currentProducts = ProductService.getProducts(categoryId, page);
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-            RecyclerView productList = getActivity().findViewById(R.id.list_items);
+            productList = getActivity().findViewById(R.id.list_items);
             productList.setLayoutManager(layoutManager);
 
-            ProductAdapter adapter = new ProductAdapter(productList);
+            ProductAdapter adapter = new ProductAdapter(productList, currentProducts);
             productList.setAdapter(adapter);
 
 
@@ -107,27 +114,16 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
                     int totalItemCount = layoutManager.getItemCount();
                     int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
 
+                    // LAST
                     if (lastVisibleItem + 1 == totalItemCount) {
+                        page++;
 
-
-                        for (int i = 0; i < 10; i++) {
-                            ProductService.getTop_products().add(new Product());
-                        }
+                        currentProducts.addAll(ProductService.getProducts(categoryId, page));
 
                         adapter.notifyDataSetChanged();
                     }
                 }
             });
-        }
-
-
-        @Override
-        public void onAttach(Activity context) {
-            super.onAttach(context);
-
-
-            /**/
-
         }
     }
 
