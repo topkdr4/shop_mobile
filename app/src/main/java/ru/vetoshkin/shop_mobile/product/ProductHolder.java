@@ -63,7 +63,7 @@ public class ProductHolder extends RecyclerView.ViewHolder {
     private static final int notFavoriteImage = R.drawable.not_favorite;
     private static final int favoriteImage = R.drawable.favorite;
 
-    private static final String favoritePreference = "favorite";
+    public static final String favoritePreference = "favorite";
 
     private static void setFavoriteIcon(ImageView imageView, boolean isFavorite, String productId) {
         Context context = imageView.getContext();

@@ -83,7 +83,16 @@ public class ProductService {
      * Получить информацию по продуктам
      */
     public static List<Product> getProducts(List<String> productsId) {
-        return Collections.emptyList();
+        List<Product> result = new ArrayList<>();
+
+        for (String s : productsId) {
+            Product product = new Product();
+            product.setTitle(s);
+            product.setId(s);
+            result.add(product);
+        }
+
+        return result;
     }
 
 
@@ -94,7 +103,7 @@ public class ProductService {
         Map<String, ?> favorites = preferences.getAll();
         List<String> favoriteProductId = new ArrayList<>(favorites.size());
 
-        for (Object productId : favorites.values()) {
+        for (Object productId : favorites.keySet()) {
             favoriteProductId.add(String.valueOf(productId));
         }
 
