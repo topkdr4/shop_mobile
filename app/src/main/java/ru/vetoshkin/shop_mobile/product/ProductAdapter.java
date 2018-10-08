@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import ru.vetoshkin.shop_mobile.ProductCard;
 import ru.vetoshkin.shop_mobile.R;
-import ru.vetoshkin.shop_mobile.product.dao.ProductService;
+import ru.vetoshkin.shop_mobile.util.Json;
 
 import java.util.List;
 
@@ -37,9 +37,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductHolder> {
 
         View view = inflater.inflate(layoutIdForListItems, parent, false);
         view.setOnClickListener(v -> {
-            int position = recyclerView.getChildLayoutPosition(v);
-            Intent productInfo = new Intent(recyclerView.getContext(), ProductCard.class);
-            recyclerView.getContext().startActivity(productInfo);
+            try {
+                int position = recyclerView.getChildLayoutPosition(v);
+                Intent productInfo = new Intent(recyclerView.getContext(), ProductCard.class);
+                productInfo.putExtra(ProductCard.PRODUCT_ID, Json.toJson(dataSource.get(position)));
+                recyclerView.getContext().startActivity(productInfo);
+            } catch (Exception e) {
+                Log.e("PRODUCT_ADAPTER", e.getMessage());
+            }
         });
         return new ProductHolder(view);
     }

@@ -17,7 +17,7 @@
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/card_view"
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:cardCornerRadius="4dp"
     >
@@ -63,14 +63,14 @@
 
             <Button
                     android:id="@+id/bike_price"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="65400"
                     android:drawableEnd="@drawable/cart_button"
                     android:drawablePadding="12dp"
                     android:textSize="18sp"
                     android:elevation="0dp"
-                    android:layout_gravity="end"
+                    android:layout_gravity="start"
                     android:layout_marginStart="42dp"
             />
 

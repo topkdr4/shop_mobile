@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import ru.vetoshkin.shop_mobile.R;
 import ru.vetoshkin.shop_mobile.basket.Basket;
 
@@ -41,7 +42,7 @@ public class ProductHolder extends RecyclerView.ViewHolder {
         this.bikePrice.setText(String.valueOf(currentProduct.getPrice()));
         this.bikePrice.setOnClickListener(view -> {
             Basket.put(currentProduct);
-            Basket.printBasket();
+            Basket.printBasket(context);
         });
 
         this.imageView.setOnClickListener(view -> {

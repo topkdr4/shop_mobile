@@ -4,11 +4,12 @@ package ru.vetoshkin.shop_mobile.basket;
  * */
 
 
-import android.util.Log;
+import android.content.Context;
+import android.os.Handler;
+import android.widget.Toast;
 import lombok.RequiredArgsConstructor;
 import ru.vetoshkin.shop_mobile.product.Product;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -99,10 +100,12 @@ public class Basket {
     }
 
 
-    public static void printBasket() {
-        Log.e("basket: ", basket.toString());
-        Log.e("basket: ", ("total sum: " + getSum()));
+    public static void printBasket(Context context) {
+        Toast toast = Toast.makeText(context, "Добавлено в корзину", Toast.LENGTH_SHORT);
+        toast.show();
+        new Handler().postDelayed(toast::cancel, 500);
     }
+
 
 
     @RequiredArgsConstructor

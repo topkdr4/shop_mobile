@@ -42,6 +42,8 @@ public class MainActivity extends Activity {
 
             if (!Util.isEmpty(sessionId)) {
                 currentUser.setSessionId(sessionId);
+                login_edit.setText("");
+                password_edit.setText("");
                 startActivity(new Intent(MainActivity.this, ShopActivity.class));
                 return;
             }

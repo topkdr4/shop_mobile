@@ -20,6 +20,14 @@
 
 
         <TextView
+                android:id="@+id/item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+        />
+
+
+        <TextView
                 android:id="@+id/product_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,10 +39,13 @@
                 android:id="@+id/bike_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="65400"
+                android:text="В корзину"
                 android:padding="12dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginLeft="32dp"
                 android:textSize="18sp"
                 android:elevation="0dp"
+                android:onClick="add"
         />
 
         <Space android:layout_width="match_parent" android:layout_height="24dp"/>
