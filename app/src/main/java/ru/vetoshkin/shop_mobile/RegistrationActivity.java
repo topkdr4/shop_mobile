@@ -3,31 +3,38 @@ package ru.vetoshkin.shop_mobile;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import okhttp3.*;
+import org.json.JSONObject;
 import ru.vetoshkin.shop_mobile.config.AppConfig;
+import ru.vetoshkin.shop_mobile.user.User;
 import ru.vetoshkin.shop_mobile.util.Util;
 
 import java.io.IOException;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 
 public class RegistrationActivity extends Activity {
     private static final Pattern EMAIL_REGEXP = Pattern.compile("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-    private SharedPreferences preferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        this.preferences = getSharedPreferences("registration", Context.MODE_PRIVATE);
     }
 
 
@@ -91,18 +98,49 @@ public class RegistrationActivity extends Activity {
 
         if (errors.size() > 0) {
             showError(errors);
+            return;
+        }
+
+        User user = User.getInstance();
+        user.setEmail(userEmail);
+        user.setName(userName);
+        user.setPassword(passwordOne);
+
+        try {
+            user.registration(response -> {
+                if (response.errorMessage != null) {
+                    showError(Collections.singleton(response.errorMessage));
+                } else {
+                    Cookie cookie = response.cookie;
+                    user.setSessionId(cookie.value());
+
+                    SharedPreferences.Editor editor = getSharedPreferences(AppConfig.APP_CONFIG, Context.MODE_PRIVATE).edit();
+                    editor.putString(AppConfig.SESSION_KEY, user.getSessionId());
+                    editor.putString("COOKIE", cookie.toString());
+                    editor.apply();
+
+                    Intent intent = new Intent(RegistrationActivity.this, ShopActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        } catch (Exception e) {
+            Log.e("REGISTRATION", e.getMessage());
         }
     }
 
 
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private ResponseBody post(String url) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(url)
-                .post(new FormBody.Builder().build())
-                .build();
-        Response response = client.newCall(request).execute();
-        return response.body();
+
+    public static interface CallbackAuth {
+        public void authorized(UserResponse response);
+    }
+
+
+    @Getter
+    @Setter
+    public static class UserResponse {
+        private Cookie cookie;
+        private String errorMessage;
     }
 }

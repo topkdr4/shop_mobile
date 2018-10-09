@@ -6,11 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import ru.vetoshkin.shop_mobile.config.AppConfig;
 import ru.vetoshkin.shop_mobile.user.User;
-import ru.vetoshkin.shop_mobile.user.dao.UserService;
 import ru.vetoshkin.shop_mobile.util.Util;
 
 
@@ -52,26 +52,37 @@ public class MainActivity extends Activity {
             currentUser.setEmail(login);
             currentUser.setPassword(password);
 
-            String sessionId = UserService.auth(currentUser) == null ? "new_token" : null;
+            try {
+                currentUser.auth(response -> {
+                    if (response.getErrorMessage() != null) {
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this)
+                                .setTitle("Ошибка автризации")
+                                .setMessage("Неверный логин или пароль")
+                                .setCancelable(false)
+                                .setPositiveButton("Ок", (dialog, which) -> {
 
-            if (!Util.isEmpty(sessionId)) {
-                currentUser.setSessionId(sessionId);
-                preferences.edit().putString(AppConfig.SESSION_KEY, sessionId).apply();
-                startActivity(new Intent(MainActivity.this, ShopActivity.class));
-                login_edit.setText("");
-                password_edit.setText("");
-                return;
+                                });
+
+                        alertDialog.show();
+                        return;
+                    }
+
+                    String sessionId = response.getCookie().value();
+                    currentUser.setSessionId(sessionId);
+
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString(AppConfig.SESSION_KEY, sessionId);
+                    editor.putString("COOKIE", response.getCookie().toString());
+                    editor.apply();
+
+                    Intent intent = new Intent(this, ShopActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                });
+            } catch (Exception e) {
+                Log.e("AUTH", e.getMessage());
             }
-
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this)
-                    .setTitle("Ошибка автризации")
-                    .setMessage("Неверный логин или пароль")
-                    .setCancelable(false)
-                    .setPositiveButton("Ок", (dialog, which) -> {
-
-                    });
-
-            alertDialog.show();
         });
     }
 

@@ -44,7 +44,7 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
     public void onNavigationDrawerItemSelected(int position) {
         Category category = CategoryService.getCategories().get(position);
         if (category == Category.LOGOUT) {
-            getSharedPreferences(AppConfig.APP_CONFIG, Context.MODE_PRIVATE).edit().remove(AppConfig.SESSION_KEY).apply();
+            getSharedPreferences(AppConfig.APP_CONFIG, Context.MODE_PRIVATE).edit().clear().apply();
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
