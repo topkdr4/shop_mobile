@@ -4,7 +4,7 @@ A mobile client for the online bike store [Speed Of Life](https://github.com/top
 
 ## Task List
 
-- [ ] Creating layouts
+- [x] Creating layouts
 - [ ] POJO / DAO
 - [ ] Connecting with server
 - [ ] Testing
