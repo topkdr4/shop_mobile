@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import ru.vetoshkin.shop_mobile.R;
+import ru.vetoshkin.shop_mobile.config.AppConfig;
 import ru.vetoshkin.shop_mobile.product.Product;
 import ru.vetoshkin.shop_mobile.product.ProductFavoriteAdapter;
 import ru.vetoshkin.shop_mobile.product.ProductHolder;
@@ -41,15 +42,13 @@ public class FavoriteFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        List<Product> favoriteProducts = ProductService.getFavorites(getActivity().getSharedPreferences(ProductHolder.favoritePreference, Context.MODE_PRIVATE));
+        List<Product> favoriteProducts = ProductService.getFavorites(getActivity().getSharedPreferences(AppConfig.FAVORITES, Context.MODE_PRIVATE));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
 
         RecyclerView productList = getActivity().findViewById(R.id.favorite_list);
-        ProductFavoriteAdapter adapter = new ProductFavoriteAdapter(favoriteProducts);
-
         productList.setLayoutManager(layoutManager);
-        productList.setAdapter(adapter);
+        productList.setAdapter(new ProductFavoriteAdapter(favoriteProducts));
     }
 }
 

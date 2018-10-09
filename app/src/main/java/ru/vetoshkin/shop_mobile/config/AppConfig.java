@@ -9,6 +9,9 @@ import java.util.Properties;
  * Ветошкин А.В. РИС-16бзу
  * */
 public class AppConfig {
+    public static final String APP_CONFIG = "app_config";
+    public static final String FAVORITES  = "favorite";
+    public static final String SESSION_KEY = "SESSION";
     private static Properties properties;
 
 

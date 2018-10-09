@@ -1,4 +1,5 @@
 package ru.vetoshkin.shop_mobile.product;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
@@ -6,9 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import ru.vetoshkin.shop_mobile.R;
 import ru.vetoshkin.shop_mobile.basket.Basket;
+import ru.vetoshkin.shop_mobile.config.AppConfig;
 
 
 
@@ -52,7 +53,7 @@ public class ProductHolder extends RecyclerView.ViewHolder {
             setFavoriteIcon(current, newFavorite, product.getId());
         });
 
-        boolean isFavorite = context.getSharedPreferences(favoritePreference, Context.MODE_PRIVATE).getBoolean(product.getId(), false) || product.isFavorite();
+        boolean isFavorite = context.getSharedPreferences(AppConfig.FAVORITES, Context.MODE_PRIVATE).getBoolean(product.getId(), false) || product.isFavorite();
         product.setFavorite(isFavorite);
         setImage(imageView, isFavorite);
     }
@@ -64,11 +65,10 @@ public class ProductHolder extends RecyclerView.ViewHolder {
     private static final int notFavoriteImage = R.drawable.not_favorite;
     private static final int favoriteImage = R.drawable.favorite;
 
-    public static final String favoritePreference = "favorite";
 
     private static void setFavoriteIcon(ImageView imageView, boolean isFavorite, String productId) {
         Context context = imageView.getContext();
-        SharedPreferences prefs = context.getSharedPreferences(favoritePreference, Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences(AppConfig.FAVORITES, Context.MODE_PRIVATE);
 
         setImage(imageView, isFavorite);
 

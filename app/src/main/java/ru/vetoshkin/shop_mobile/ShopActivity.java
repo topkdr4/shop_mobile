@@ -2,6 +2,8 @@ package ru.vetoshkin.shop_mobile;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import ru.vetoshkin.shop_mobile.category.Category;
 import ru.vetoshkin.shop_mobile.category.dao.CategoryService;
+import ru.vetoshkin.shop_mobile.config.AppConfig;
 import ru.vetoshkin.shop_mobile.product.Product;
 import ru.vetoshkin.shop_mobile.product.ProductAdapter;
 import ru.vetoshkin.shop_mobile.product.dao.ProductService;
@@ -28,13 +31,9 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
 
-        /**
-         * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-         */
         NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
-        // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 findViewById(R.id.drawer_layout));
@@ -44,6 +43,15 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         Category category = CategoryService.getCategories().get(position);
+        if (category == Category.LOGOUT) {
+            getSharedPreferences(AppConfig.APP_CONFIG, Context.MODE_PRIVATE).edit().remove(AppConfig.SESSION_KEY).apply();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         Fragment newFragment = CategoryService.getFragment(category);
         newFragment = newFragment == null ? PlaceholderFragment.newInstance(category) : newFragment;
 
@@ -56,9 +64,13 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
 
 
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
+
+
+
     public static class PlaceholderFragment extends Fragment {
 
         public PlaceholderFragment() {
