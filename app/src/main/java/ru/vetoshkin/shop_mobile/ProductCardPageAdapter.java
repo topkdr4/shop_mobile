@@ -2,7 +2,13 @@ package ru.vetoshkin.shop_mobile;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import lombok.RequiredArgsConstructor;
 import ru.vetoshkin.shop_mobile.product.Product;
+import ru.vetoshkin.shop_mobile.product.dao.ProductService;
 import ru.vetoshkin.shop_mobile.util.Util;
 
 import java.io.PrintWriter;
@@ -66,8 +73,12 @@ public class ProductCardPageAdapter extends PagerAdapter {
             }
 
             if (position == 0) {
-                if (currentProduct.getPreviewImage() == null) {
-                    currentProduct.setPreviewImage(((BitmapDrawable)imageView.getDrawable()).getBitmap());
+                Bitmap temp = ProductService.previewCache.get(currentProduct.getId());
+                if (temp == null) {
+                    if (imageView.getDrawable() instanceof BitmapDrawable) {
+                        //VectorDrawable vectorDrawable = (VectorDrawable) imageView.getDrawable();
+                        ProductService.previewCache.put(currentProduct.getId(), ((BitmapDrawable)imageView.getDrawable()).getBitmap());
+                    }
                 }
             }
 

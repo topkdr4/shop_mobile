@@ -2,7 +2,9 @@ package ru.vetoshkin.shop_mobile.product;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import ru.vetoshkin.shop_mobile.R;
 import ru.vetoshkin.shop_mobile.basket.Basket;
 import ru.vetoshkin.shop_mobile.config.AppConfig;
+import ru.vetoshkin.shop_mobile.product.dao.ProductService;
 
 
 
@@ -39,6 +42,7 @@ public class ProductHolder extends RecyclerView.ViewHolder {
 
 
     public void setState(Product product) {
+        Log.e("SET STATE", product.getId());
         this.currentProduct = product;
 
         this.bikeName.setText(currentProduct.getTitle());
@@ -49,8 +53,9 @@ public class ProductHolder extends RecyclerView.ViewHolder {
             Basket.printBasket(context);
         });
 
-        if (product.getPreviewImage() != null) {
-            bikePreview.setImageBitmap(product.getPreviewImage());
+        Bitmap temp = ProductService.previewCache.get(product.getId());
+        if (temp != null) {
+            bikePreview.setImageBitmap(temp);
         }
 
         this.imageView.setOnClickListener(view -> {

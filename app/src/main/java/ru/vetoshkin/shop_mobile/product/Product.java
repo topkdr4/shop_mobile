@@ -47,11 +47,6 @@ public class Product {
      */
     private transient boolean isFavorite;
 
-    /**
-     * Превью
-     */
-    private transient Bitmap previewImage;
-
 
     @Override
     public String toString() {

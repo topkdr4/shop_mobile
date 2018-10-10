@@ -40,6 +40,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductHolder> {
             try {
                 int position = recyclerView.getChildLayoutPosition(v);
                 Intent productInfo = new Intent(recyclerView.getContext(), ProductCard.class);
+                Log.e("ON CLICK", Json.toJson(dataSource.get(position)));
                 productInfo.putExtra(ProductCard.PRODUCT_ID, Json.toJson(dataSource.get(position)));
                 recyclerView.getContext().startActivity(productInfo);
             } catch (Exception e) {

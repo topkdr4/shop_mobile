@@ -48,7 +48,9 @@ public class ProductCard extends Activity {
             setContentView(R.layout.activity_product_card);
 
             TextView description = findViewById(R.id.product_description);
-            description.setText(Html.fromHtml(currentProduct.getDescription()));
+            String descriptionProduct = currentProduct.getDescription();
+            Log.e("DESC", String.valueOf(descriptionProduct));
+            description.setText(Html.fromHtml(Util.isEmpty(descriptionProduct) ? "" : descriptionProduct));
 
             TextView itemPrice = findViewById(R.id.item_price);
             itemPrice.setText(Html.fromHtml(PRICE_TITLE + currentProduct.getPrice() + " р.").toString());

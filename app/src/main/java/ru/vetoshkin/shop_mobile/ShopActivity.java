@@ -11,13 +11,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import okhttp3.*;
 import ru.vetoshkin.shop_mobile.category.Category;
 import ru.vetoshkin.shop_mobile.category.dao.CategoryService;
 import ru.vetoshkin.shop_mobile.config.AppConfig;
 import ru.vetoshkin.shop_mobile.product.Product;
 import ru.vetoshkin.shop_mobile.product.ProductAdapter;
+import ru.vetoshkin.shop_mobile.product.ProductPageCount;
+import ru.vetoshkin.shop_mobile.product.dao.ProductResp;
 import ru.vetoshkin.shop_mobile.product.dao.ProductService;
+import ru.vetoshkin.shop_mobile.util.Json;
+import ru.vetoshkin.shop_mobile.util.Util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +97,7 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
 
         private RecyclerView productList;
         private int page = 1;
+        private int maxPage = 1;
         private String categoryId;
 
         @Override
@@ -104,45 +112,76 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
 
 
         @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
+        public void onActivityCreated(Bundle savedInstanceState) {Log.e("CATEGORY_ID", categoryId);
             super.onActivityCreated(savedInstanceState);
 
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            try {
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-            productList = getActivity().findViewById(R.id.list_items);
-            productList.setLayoutManager(layoutManager);
+                productList = getActivity().findViewById(R.id.list_items);
+                productList.setLayoutManager(layoutManager);
 
-            List<Product> products = new ArrayList<>();
-            ProductAdapter adapter = new ProductAdapter(productList, products);
-            productList.setAdapter(adapter);
+                List<Product> products = new ArrayList<>();
+                ProductAdapter adapter = new ProductAdapter(productList, products);
+                productList.setAdapter(adapter);
 
 
-            ProductService.getProducts(categoryId, page, currentProducts -> {
-                products.addAll(currentProducts);
-                adapter.notifyDataSetChanged();
+                ProductService.getProducts(categoryId, page, currentProducts -> {
+                    getActivity().runOnUiThread(() -> {
+                        products.addAll(currentProducts);
+                        adapter.notifyDataSetChanged();
+                    });
 
-                if (categoryId.equals(Category.HOME.getId()))
-                    return;
+                    if (categoryId.equals(Category.HOME.getId()))
+                        return;
 
-                productList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                        super.onScrolled(recyclerView, dx, dy);
-                        int totalItemCount = layoutManager.getItemCount();
-                        int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+                    final OkHttpClient client = new OkHttpClient();
+                    RequestBody body = new FormBody.Builder().build();
 
-                        // LAST
-                        if (lastVisibleItem + 1 == totalItemCount) {
-                            page++;
+                    Request request = new Request.Builder()
+                            .url(AppConfig.getServerHost() +  "/product/list/" + categoryId + "/count")
+                            .post(body)
+                            .build();
 
-                            ProductService.getProducts(categoryId, page, currentProducts::addAll);
-
-                            adapter.notifyDataSetChanged();
+                    client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
                         }
-                    }
+
+
+                        @Override
+                        public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                            ProductPageCount resp = Json.toObject(response.body().string(), ProductPageCount.class);
+                            maxPage = (int) resp.getResult();
+                        }
+                    });
+
+                    productList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                            super.onScrolled(recyclerView, dx, dy);
+                            int totalItemCount = layoutManager.getItemCount();
+                            int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+
+                            // LAST
+                            if (lastVisibleItem + 1 == totalItemCount) {
+                                page++;
+                                if (page > maxPage)
+                                    return;
+
+                                ProductService.getProducts(categoryId, page, resp -> getActivity().runOnUiThread(() -> {
+                                    Log.e("PRODUCT", "APPEND");
+                                    products.addAll(resp);
+                                    adapter.notifyDataSetChanged();
+                                }));
+                            }
+                        }
+                    });
                 });
-            });
+            } catch (Throwable e) {
+                Log.e(e.getClass().getCanonicalName(), Util.getStackTrace(e));
+            }
         }
     }
 
