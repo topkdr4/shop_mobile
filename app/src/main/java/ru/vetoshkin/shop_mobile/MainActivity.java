@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import ru.vetoshkin.shop_mobile.category.dao.CategoryService;
 import ru.vetoshkin.shop_mobile.config.AppConfig;
 import ru.vetoshkin.shop_mobile.user.User;
 import ru.vetoshkin.shop_mobile.util.Util;
@@ -29,7 +30,10 @@ public class MainActivity extends Activity {
         if (!Util.isEmpty(sessionIdFromCache)) {
             User currentUser = User.getInstance();
             currentUser.setSessionId(sessionIdFromCache);
-            startActivity(new Intent(MainActivity.this, ShopActivity.class));
+            CategoryService.loadCategories(response -> {
+               if (response.getErrorMessage() == null)
+                   startActivity(new Intent(MainActivity.this, ShopActivity.class));
+            });
             return;
         }
 
@@ -75,10 +79,16 @@ public class MainActivity extends Activity {
                     editor.putString("COOKIE", response.getCookie().toString());
                     editor.apply();
 
-                    Intent intent = new Intent(this, ShopActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
+                    CategoryService.loadCategories(respCategory -> {
+                        if (respCategory.getErrorMessage() != null) {
+                            return;
+                        }
+
+                        Intent intent = new Intent(this, ShopActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    });
                 });
             } catch (Exception e) {
                 Log.e("AUTH", e.getMessage());

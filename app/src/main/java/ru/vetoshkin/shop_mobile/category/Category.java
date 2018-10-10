@@ -9,7 +9,6 @@ import ru.vetoshkin.shop_mobile.R;
 
 
 @Getter
-@RequiredArgsConstructor
 public class Category {
     public static final Category HOME     = new Category("home",     "Главная",   R.drawable.home);
     public static final Category FAVORITE = new Category("favorite", "Избранное", R.drawable.favorite);
@@ -18,14 +17,24 @@ public class Category {
     public static final Category LOGOUT   = new Category("exit",     "Выйти",     R.drawable.exit);
 
 
-    protected final String id;
-    protected final String title;
+    protected String id;
+    protected String title;
     protected int   iconResource = R.drawable.bike_menu_icon;
+
+    public Category() {
+
+    }
 
     public Category(String id, String title, int iconResource) {
         this.id = id;
         this.title = title;
         this.iconResource = iconResource;
+    }
+
+
+    public Category(String id, String title) {
+        this.id = id;
+        this.title = title;
     }
 
 
