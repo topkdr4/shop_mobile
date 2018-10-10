@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import ru.vetoshkin.shop_mobile.product.Product;
 import ru.vetoshkin.shop_mobile.product.ProductAdapter;
 import ru.vetoshkin.shop_mobile.product.dao.ProductService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -104,32 +106,42 @@ public class ShopActivity extends Activity implements NavigationDrawerFragment.N
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
-            List<Product> currentProducts = ProductService.getProducts(categoryId, page);
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
             productList = getActivity().findViewById(R.id.list_items);
             productList.setLayoutManager(layoutManager);
 
-            ProductAdapter adapter = new ProductAdapter(productList, currentProducts);
+            List<Product> products = new ArrayList<>();
+            ProductAdapter adapter = new ProductAdapter(productList, products);
             productList.setAdapter(adapter);
 
 
-            productList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-                    int totalItemCount = layoutManager.getItemCount();
-                    int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+            ProductService.getProducts(categoryId, page, currentProducts -> {
+                products.addAll(currentProducts);
+                adapter.notifyDataSetChanged();
 
-                    // LAST
-                    if (lastVisibleItem + 1 == totalItemCount) {
-                        page++;
+                if (categoryId.equals(Category.HOME.getId()))
+                    return;
 
-                        currentProducts.addAll(ProductService.getProducts(categoryId, page));
+                productList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        int totalItemCount = layoutManager.getItemCount();
+                        int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
 
-                        adapter.notifyDataSetChanged();
+                        // LAST
+                        if (lastVisibleItem + 1 == totalItemCount) {
+                            page++;
+
+                            ProductService.getProducts(categoryId, page, currentProducts::addAll);
+
+                            adapter.notifyDataSetChanged();
+                        }
                     }
-                }
+                });
             });
         }
     }

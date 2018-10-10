@@ -1,4 +1,5 @@
 package ru.vetoshkin.shop_mobile.product;
+import android.graphics.Bitmap;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +30,7 @@ public class Product {
     /**
      * Категория
      */
-    private String category;
+    private int category;
 
     /**
      * Изображения
@@ -44,7 +45,12 @@ public class Product {
     /**
      * Избрнанное
      */
-    private boolean isFavorite;
+    private transient boolean isFavorite;
+
+    /**
+     * Превью
+     */
+    private transient Bitmap previewImage;
 
 
     @Override

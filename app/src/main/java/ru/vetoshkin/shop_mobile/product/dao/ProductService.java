@@ -1,8 +1,15 @@
 package ru.vetoshkin.shop_mobile.product.dao;
 import android.content.SharedPreferences;
+import android.util.Log;
 import lombok.Getter;
+import okhttp3.*;
+import ru.vetoshkin.shop_mobile.category.Category;
+import ru.vetoshkin.shop_mobile.category.dao.CategoryService;
+import ru.vetoshkin.shop_mobile.config.AppConfig;
 import ru.vetoshkin.shop_mobile.product.Product;
+import ru.vetoshkin.shop_mobile.util.Json;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -11,71 +18,46 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class ProductService {
+    private static final String topProductsUrl = "/product/best";
 
-    @Getter
-    private static final List<Product> top_products = new ArrayList<>();
-
-    static {
-        Product best1 = new Product();
-        best1.setId("A340");
-        best1.setTitle("СуперВелос1");
-        best1.setCategory("2");
-        best1.setDescription("Самый лучший велос!!!");
-        best1.setPrice(345.56f);
-        best1.setImages(Arrays.asList(3, 4, 5));
-
-        top_products.add(best1);
-
-
-        Product best2 = new Product();
-        best2.setId("A341");
-        best2.setTitle("СуперВелос2");
-        best2.setCategory("2");
-        best2.setDescription("Самый лучший велос!!!");
-        best2.setPrice(345.56f);
-        best2.setImages(Arrays.asList(3, 4, 5));
-
-        top_products.add(best2);
-
-
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-
-        for (int i = 0; i < 9; i++) {
-            Product best = new Product();
-            best.setId("A" + (350 + i));
-            best.setTitle("СуперВелос" + (i + 3));
-            best.setCategory("2");
-            best.setDescription("Самый лучший велос!!!");
-            best.setPrice(random.nextInt(5000, 100000));
-            best.setImages(Arrays.asList(3, 4, 5));
-            best.setFavorite(random.nextBoolean());
-
-            top_products.add(best);
-        }
-    }
 
 
     /**
      * Список продуктов заданной категории и страницы
      */
-    public static List<Product> getProducts(String categoryId, int page) {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-
-        List<Product> result = new ArrayList<>(9);
-
-        for (int i = 0; i < 9; i++) {
-            Product best = new Product();
-            best.setId("BIKE_" + (page * 9 + i));
-            best.setTitle("Велосипед " + categoryId + " [" + page + " " + i + "]");
-            best.setCategory(categoryId);
-            best.setDescription("Самый лучший велос!!!");
-            best.setPrice(random.nextInt(5000, 100000));
-            best.setImages(Arrays.asList(3, 4, 5));
-
-            result.add(best);
+    public static void getProducts(String categoryId, int page, ProductCallback callback) {
+        if (categoryId.equals(Category.HOME.getId())) {
+            loadBest(callback);
+            return;
         }
 
-        return result;
+        callback.run(new ArrayList<>());
+    }
+
+
+    private static void loadBest(ProductCallback callBack) {
+        final OkHttpClient client = new OkHttpClient();
+        RequestBody body = new FormBody.Builder().build();
+
+        Request request = new Request.Builder()
+                .url(AppConfig.getServerHost() + topProductsUrl)
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("BEST", "ERROR");
+                callBack.run(new ArrayList<>());
+            }
+
+
+            @Override
+            public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                ProductResp resp = Json.toObject(response.body().string(), ProductResp.class);
+                callBack.run(resp.getResult());
+            }
+        });
     }
 
 
@@ -109,4 +91,11 @@ public class ProductService {
 
         return getProducts(favoriteProductId);
     }
+
+
+
+    public static interface ProductCallback {
+        public void run(List<Product> resp);
+    }
+
 }

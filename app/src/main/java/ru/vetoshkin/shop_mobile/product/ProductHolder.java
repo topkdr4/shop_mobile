@@ -21,6 +21,7 @@ public class ProductHolder extends RecyclerView.ViewHolder {
     private Button   bikePrice;
     private TextView bikeName;
     private ImageView imageView;
+    private ImageView bikePreview;
 
 
     public ProductHolder(View itemView) {
@@ -32,6 +33,8 @@ public class ProductHolder extends RecyclerView.ViewHolder {
         this.bikeName  = itemView.findViewById(R.id.bike_name);
 
         this.imageView = itemView.findViewById(R.id.bike_favorite);
+
+        this.bikePreview = itemView.findViewById(R.id.bike_preview);
     }
 
 
@@ -45,6 +48,10 @@ public class ProductHolder extends RecyclerView.ViewHolder {
             Basket.put(currentProduct);
             Basket.printBasket(context);
         });
+
+        if (product.getPreviewImage() != null) {
+            bikePreview.setImageBitmap(product.getPreviewImage());
+        }
 
         this.imageView.setOnClickListener(view -> {
             ImageView current = (ImageView) view;
