@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="#F2F2F2"
-             tools:context=".MainLoader">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:padding="128dp"
+    tools:context=".MainLoader">
 
 
-    <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/preload_gif"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#F2F2F2"
-            android:src="@drawable/preloader"
-    />
+    <ImageView
+        android:id="@+id/screen_logo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_screen_logo" />
 
 </FrameLayout>
