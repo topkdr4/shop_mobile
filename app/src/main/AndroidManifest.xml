@@ -12,14 +12,12 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".MainActivity"
-                android:theme="@style/LoginPage">
+                android:name=".MainActivity">
         </activity>
         <activity
                 android:name=".MainLoader"
                 android:configChanges="orientation|keyboardHidden|screenSize"
-                android:label="Speed Of Life"
-                android:theme="@style/FullscreenTheme">
+                android:label="Speed Of Life">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -27,13 +25,11 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".RegistrationActivity"
-                android:theme="@style/RegistrationPage">
+                android:name=".RegistrationActivity">
         </activity>
         <activity
                 android:name=".ShopActivity"
-                android:label="Speed Of Life"
-                android:theme="@style/ShopPage">
+                android:label="Speed Of Life">
         </activity>
         <activity android:name=".ProductCard">
         </activity>

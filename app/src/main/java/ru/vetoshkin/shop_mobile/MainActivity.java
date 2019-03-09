@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences preferences = this.getSharedPreferences(AppConfig.APP_CONFIG, Context.MODE_PRIVATE);
+        /*SharedPreferences preferences = this.getSharedPreferences(AppConfig.APP_CONFIG, Context.MODE_PRIVATE);
 
         String sessionIdFromCache = preferences.getString(AppConfig.SESSION_KEY, null);
         if (!Util.isEmpty(sessionIdFromCache)) {
@@ -36,10 +36,15 @@ public class MainActivity extends Activity {
             });
             return;
         }
+*/
+        try {
+            setContentView(R.layout.activity_main);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
 
-        setContentView(R.layout.activity_main);
 
-        findViewById(R.id.login_button).setOnClickListener(v -> {
+        /*findViewById(R.id.login_button).setOnClickListener(v -> {
             EditText login_edit = findViewById(R.id.login_edit);
             String login = login_edit.getText().toString();
 
@@ -93,7 +98,7 @@ public class MainActivity extends Activity {
             } catch (Exception e) {
                 Log.e("AUTH", e.getMessage());
             }
-        });
+        });*/
     }
 
 
