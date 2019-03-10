@@ -5,27 +5,44 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.button.MaterialButton;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ru.vetoshkin.shop_mobile.category.dao.CategoryService;
 import ru.vetoshkin.shop_mobile.config.AppConfig;
 import ru.vetoshkin.shop_mobile.user.User;
 import ru.vetoshkin.shop_mobile.util.Util;
 
 
-
-
-
 public class MainActivity extends Activity {
+
+    @BindView(R.id.login_button)
+    MaterialButton button;
+
+    @BindView(R.id.login_edit)
+    EditText login_edit;
+
+    @BindView(R.id.password_edit)
+    EditText password_edit;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*SharedPreferences preferences = this.getSharedPreferences(AppConfig.APP_CONFIG, Context.MODE_PRIVATE);
+        SharedPreferences preferences = this.getSharedPreferences(AppConfig.APP_CONFIG, Context.MODE_PRIVATE);
 
+        /*
         String sessionIdFromCache = preferences.getString(AppConfig.SESSION_KEY, null);
         if (!Util.isEmpty(sessionIdFromCache)) {
             User currentUser = User.getInstance();
@@ -37,21 +54,17 @@ public class MainActivity extends Activity {
             return;
         }
 */
-        try {
-            setContentView(R.layout.activity_main);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
 
-        /*findViewById(R.id.login_button).setOnClickListener(v -> {
-            EditText login_edit = findViewById(R.id.login_edit);
+        button.setOnClickListener(v -> {
             String login = login_edit.getText().toString();
 
             if (Util.isEmpty(login))
                 return;
 
-            EditText password_edit = findViewById(R.id.password_edit);
             String password = password_edit.getText().toString();
 
             if (Util.isEmpty(password))
@@ -98,7 +111,7 @@ public class MainActivity extends Activity {
             } catch (Exception e) {
                 Log.e("AUTH", e.getMessage());
             }
-        });*/
+        });
     }
 
 

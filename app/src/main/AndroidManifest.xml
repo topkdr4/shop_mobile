@@ -15,7 +15,7 @@
                 android:name=".MainActivity">
         </activity>
         <activity
-                android:name=".MainLoader"
+                android:name=".SplashScreenActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:label="Speed Of Life">
             <intent-filter>

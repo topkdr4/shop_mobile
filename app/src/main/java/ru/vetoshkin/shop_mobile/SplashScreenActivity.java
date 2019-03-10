@@ -3,24 +3,15 @@ package ru.vetoshkin.shop_mobile;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.AndroidRuntimeException;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ru.vetoshkin.shop_mobile.config.AppConfig;
 
 
-
-
-
-public class MainLoader extends Activity {
+public class SplashScreenActivity extends Activity {
     private final AlphaAnimation animation = createAnimation();
 
     @BindView(R.id.screen_logo)
@@ -48,7 +39,7 @@ public class MainLoader extends Activity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Intent intent = new Intent(MainLoader.this, MainActivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                 startActivity(intent);
             }
 
