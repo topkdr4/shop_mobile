@@ -6,35 +6,42 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import okhttp3.*;
-import org.json.JSONObject;
+import okhttp3.Cookie;
 import ru.vetoshkin.shop_mobile.config.AppConfig;
 import ru.vetoshkin.shop_mobile.user.User;
 import ru.vetoshkin.shop_mobile.util.Util;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.regex.Pattern;
-
 
 public class RegistrationActivity extends Activity {
-    private static final Pattern EMAIL_REGEXP = Pattern.compile("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+    @BindView(R.id.new_email_edit)
+    EditText email;
 
+    @BindView(R.id.user_name_edit)
+    EditText name;
+
+    @BindView(R.id.new_password_edit_one)
+    EditText password;
+
+    @BindView(R.id.new_password_edit_two)
+    EditText password_repeat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        ButterKnife.bind(this);
     }
 
 
@@ -63,11 +70,6 @@ public class RegistrationActivity extends Activity {
 
 
     public void valideForm(View view) {
-        EditText email = findViewById(R.id.new_email_edit);
-        EditText name = findViewById(R.id.user_name_edit);
-        EditText password = findViewById(R.id.new_password_edit_one);
-        EditText password_repeat = findViewById(R.id.new_password_edit_two);
-
         String userEmail = email.getText().toString();
         String userName  = name.getText().toString();
         String passwordOne = password.getText().toString();
@@ -75,7 +77,7 @@ public class RegistrationActivity extends Activity {
 
         LinkedHashSet<String> errors = new LinkedHashSet<>();
 
-        boolean isValidEmail = EMAIL_REGEXP.matcher(userEmail).matches();
+        boolean isValidEmail = Util.EMAIL_REGEXP.matcher(userEmail).matches();
         if (!isValidEmail)
             errors.add("Указан неверный e-mail адрес");
 
